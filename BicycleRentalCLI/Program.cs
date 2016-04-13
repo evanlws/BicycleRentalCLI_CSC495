@@ -10,6 +10,9 @@ namespace BicycleRentalCLI
   {
     static void Main(string[] args)
     {
+      User u = new User();
+      u.populate(1);
+      Console.WriteLine("name " + u.getFirstName());
     }
   }
 }

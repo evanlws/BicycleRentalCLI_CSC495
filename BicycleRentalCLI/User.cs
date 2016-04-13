@@ -8,7 +8,7 @@ namespace BicycleRentalCLI
 {
   class User : Persistable
   {
-    private int ID { get; }
+    private int ID { get; set; }
     private string BannerId { get; set; }
     private string FirstName { get; set; }
     private string LastName { get; set; }
@@ -23,7 +23,7 @@ namespace BicycleRentalCLI
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=..\BicycleRental.accdb";
+          @"Data source=BicycleRental.accdb";
     }
     //------------------------------------------------------------------
     public User(string bannerId, string firstName, string lastName,
@@ -31,7 +31,7 @@ namespace BicycleRentalCLI
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=..\BicycleRental.accdb";
+          @"Data source=BicycleRental.accdb";
 
       this.BannerId = bannerId;
       this.FirstName = firstName;
@@ -45,9 +45,9 @@ namespace BicycleRentalCLI
       
     }
     //------------------------------------------------------------------
-    public void populate(string ID)
+    public void populate(int Id)
     {
-      string queryString = "SELECT * FROM User WHERE (ID = " + ID + ")";
+      string queryString = "SELECT * FROM [User] WHERE (ID = " + Id + ")";
       List<Object> results = getValues(queryString);
       if (results != null)
       {
@@ -59,7 +59,7 @@ namespace BicycleRentalCLI
           {
             // DEBUG Console.WriteLine(rowValue);
             if (count == 0)
-              ID = Convert.ToString(rowValue);
+              ID = Convert.ToInt32(rowValue);
             else if (count == 1)
               BannerId = Convert.ToString(rowValue);
             else if (count == 2)
@@ -88,7 +88,7 @@ namespace BicycleRentalCLI
     {
 
       string insertQuery =
-      "INSERT INTO User (BannerId, FirstName, LastName, PhoneNumber, EmailAddress, UserType, Notes, Status) " +
+      "INSERT INTO [User] (BannerId, FirstName, LastName, PhoneNumber, EmailAddress, UserType, Notes, Status) " +
       "VALUES (" +
       "'" + this.BannerId + "', '" +
       this.FirstName + "', '" +
@@ -106,7 +106,7 @@ namespace BicycleRentalCLI
       else
       {
         Console.WriteLine("User object successfully inserted");
-        string idQueryString = "SELECT MAX(BannerID) FROM User";
+        string idQueryString = "SELECT MAX(BannerID) FROM [User]";
         List<Object> results = getValues(idQueryString);
         if (results != null)
         {
@@ -126,7 +126,7 @@ namespace BicycleRentalCLI
 
     public void update()
     {
-      string updateQuery = "UPDATE User SET " +
+      string updateQuery = "UPDATE [User] SET " +
           " BannerId = '" + this.BannerId + "' ," +
           " FirstName = '" + this.FirstName + "' ," +
           " LastName = '" + this.LastName + "' ," +
@@ -147,7 +147,7 @@ namespace BicycleRentalCLI
 
     public void delete()
     {
-      string deleteQuery = "DELETE FROM User WHERE " +
+      string deleteQuery = "DELETE FROM [User] WHERE " +
           " BannerId = " + this.BannerId;
       Console.WriteLine(deleteQuery);
       int returnCode = modifyDatabase(deleteQuery);
