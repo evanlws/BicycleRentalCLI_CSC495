@@ -9,40 +9,48 @@ namespace BicycleRentalCLI
   class Vehicle : Persistable
   {
     private int ID { get; set; }
-    private string FirstName { get; set; }
-    private string LastName { get; set; }
-    private string Address { get; set; }
-    private string City { get; set; }
-    private string State { get; set; }
-    private string Zip { get; set; }
-    private string DOB { get; set; }
+    private string BikeMake { get; set; }
+    private string ModelNumber { get; set; }
+    private string SerialNumber { get; set; }
+    private string Color { get; set; }
+    private string Description { get; set; }
+    private string Location { get; set; }
+    private string PhysicalCondition { get; set; }
+    private string Notes { get; set; }
+    private string Status { get; set; }
+    private string DateStatusUpdated { get; set; }
+
     public Vehicle()
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=C:\Vehicles\Public\Documents\Visual Studio Assets" +
-          @"\Vehicle-noQueries.accdb";
+          @"Data source=..\BicycleRental.accdb";
     }
+
     //------------------------------------------------------------------
-    public Vehicle(string firstName, string lastName, string address,
-       string city, string state, string dob, string zip)
+    public Vehicle(string bikeMake, string modelNumber, string serialNumber, string color, string description, string location, string physicalCondition, string notes, string status, string dateStatusUpdated)
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=C:\Vehicles\Public\Documents\Visual Studio Assets" +
-          @"\Vehicle-noQueries.accdb";
-      this.FirstName = firstName;
-      this.LastName = lastName;
-      this.Address = address;
-      this.City = city;
-      this.State = state;
-      this.DOB = dob;
-      this.Zip = zip;
+          @"Data source=..\BicycleRental.accdb";
+
+      this.BikeMake = bikeMake;
+      this.ModelNumber = modelNumber;
+      this.SerialNumber = serialNumber;
+      this.Color = color;
+      this.Description = description;
+      this.Location = location;
+      this.PhysicalCondition = physicalCondition;
+      this.Notes = notes;
+      this.Status = status;
+      this.DateStatusUpdated = dateStatusUpdated;
+
     }
+
     //------------------------------------------------------------------
-    public void populate(int ID)
+    public void populate(int Id)
     {
-      string queryString = "SELECT * FROM Vehicle WHERE (ID = " + ID + ")";
+      string queryString = "SELECT * FROM Vehicle WHERE (ID = " + Id + ")";
       List<Object> results = getValues(queryString);
       if (results != null)
       {
@@ -54,21 +62,27 @@ namespace BicycleRentalCLI
           {
             // DEBUG Console.WriteLine(rowValue);
             if (count == 0)
-              this.ID = Convert.ToInt32(rowValue);
+              ID = Convert.ToInt32(rowValue);
             else if (count == 1)
-              FirstName = Convert.ToString(rowValue);
+              BikeMake = Convert.ToString(rowValue);
             else if (count == 2)
-              LastName = Convert.ToString(rowValue);
+              ModelNumber = Convert.ToString(rowValue);
             else if (count == 3)
-              Address = Convert.ToString(rowValue);
+              SerialNumber = Convert.ToString(rowValue);
             else if (count == 4)
-              City = Convert.ToString(rowValue);
+              Color = Convert.ToString(rowValue);
             else if (count == 5)
-              State = Convert.ToString(rowValue);
+              Description = Convert.ToString(rowValue);
             else if (count == 6)
-              DOB = Convert.ToString(rowValue);
+              Location = Convert.ToString(rowValue);
             else if (count == 7)
-              Zip = Convert.ToString(rowValue);
+              PhysicalCondition = Convert.ToString(rowValue);
+            else if (count == 8)
+              Notes = Convert.ToString(rowValue);
+            else if (count == 9)
+              Status = Convert.ToString(rowValue);
+            else if (count == 10)
+              DateStatusUpdated = Convert.ToString(rowValue);
             count = count + 1;
           }
         }
@@ -79,15 +93,18 @@ namespace BicycleRentalCLI
     {
 
       string insertQuery =
-      "INSERT INTO Vehicle (FirstName, LastName, Address, City, State, Zip, DOB) " +
+      "INSERT INTO Vehicle (BikeMake, ModelNumber, SerialNumber, Color, Description, Location, PhysicalCondition, Notes, Status, DateStatusUpdated) " +
       "VALUES (" +
-      "'" + this.FirstName + "', '" +
-      this.LastName + "', '" +
-      this.Address + "', '" +
-      this.City + "', '" +
-      this.State + "', '" +
-      this.Zip + "', '" +
-      this.DOB + "')";
+      "'" + this.BikeMake + "', '" +
+      this.ModelNumber + "', '" +
+      this.SerialNumber + "', '" +
+      this.Color + "', '" +
+      this.Description + "', '" +
+      this.Location + "', '" +
+      this.PhysicalCondition + "', '" +
+      this.Notes + "', '" +
+      this.Status + "', '" +
+      this.DateStatusUpdated + "')";
       int returnCode = modifyDatabase(insertQuery);
       if (returnCode != 0)
       {
@@ -117,13 +134,15 @@ namespace BicycleRentalCLI
     public void update()
     {
       string updateQuery = "UPDATE Vehicle SET " +
-          " FirstName = '" + this.FirstName + "' ," +
-          " LastName = '" + this.LastName + "' ," +
-          " Address = '" + this.Address + "' ," +
-          " City = '" + this.City + "' ," +
-          " State = '" + this.State + "', " +
-          " Zip = '" + this.Zip + "', " +
-          " DOB = '" + this.DOB + "' " +
+          " BikeMake = '" + this.BikeMake + "' ," +
+          " ModelNumber = '" + this.ModelNumber + "' ," +
+          " SerialNumber = '" + this.SerialNumber + "' ," +
+          " Color = '" + this.Color + "' ," +
+          " Description = '" + this.Description + "', " +
+          " PhysicalCondition = '" + this.PhysicalCondition + "', " +
+          " Notes = '" + this.Notes + "', " +
+          " Status = '" + this.Status + "', " +
+          " DateStatusUpdated = '" + this.DateStatusUpdated + "' " +
           " WHERE " +
           " ID = " + this.ID;
       Console.WriteLine(updateQuery);
@@ -146,75 +165,105 @@ namespace BicycleRentalCLI
         Console.WriteLine("Vehicle object successfully deleted");
     }
 
-    public string getFirstName()
+    public string getBikeMake()
     {
-      return this.FirstName;
+      return this.BikeMake;
     }
 
-    public string getLastName()
+    public string getModelNumber()
     {
-      return this.LastName;
+      return this.ModelNumber;
     }
 
-    public string getAddress()
+    public string getSerialNumber()
     {
-      return this.Address;
+      return this.SerialNumber;
     }
 
-    public string getCity()
+    public string getColor()
     {
-      return this.City;
+      return this.Color;
     }
 
-    public string getState()
+    public string getDescription()
     {
-      return this.State;
+      return this.Description;
     }
 
-    public string getZip()
+    public string getLocation()
     {
-      return this.Zip;
+      return this.Location;
     }
 
-    public string getDOB()
+    public string getPhysicalCondition()
     {
-      return this.DOB;
+      return this.PhysicalCondition;
     }
 
-    public void setFirstName(string firstName)
+    public string getNotes()
     {
-      this.FirstName = firstName;
+      return this.Notes;
     }
 
-    public void setLastName(string lastName)
+    public string getStatus()
     {
-      this.LastName = lastName;
+      return this.Status;
     }
 
-    public void setAddress(string address)
+    public string getDateStatusUpdated()
     {
-      this.Address = address;
+      return this.DateStatusUpdated;
     }
 
-    public void setCity(string city)
+    public void setBikeMake(string bikeMake)
     {
-      this.City = city;
+      this.BikeMake = bikeMake;
     }
 
-    public void setState(string state)
+    public void setModelNumber(string modelNumber)
     {
-      this.State = state;
+      this.ModelNumber = modelNumber;
     }
 
-    public void setZip(string zip)
+    public void setSerialNumber(string serialNumber)
     {
-      this.Zip = zip;
+      this.SerialNumber = serialNumber;
     }
 
-    public void setDOB(string dob)
+    public void setColor(string color)
     {
-      this.DOB = dob;
+      this.Color = color;
     }
+
+    public void setDescription(string description)
+    {
+      this.Description = description;
+    }
+
+    public void setLocation(string location)
+    {
+      this.Location = location;
+    }
+
+    public void setPhysicalCondition(string physicalCondition)
+    {
+      this.PhysicalCondition = physicalCondition;
+    }
+
+    public void setNotes(string notes)
+    {
+      this.Notes = notes;
+    }
+
+    public void setStatus(string status)
+    {
+      this.Status = status;
+    }
+
+    public void setDateStatusUpdated(string dateStatusUpdated)
+    {
+      this.DateStatusUpdated = dateStatusUpdated;
+    }
+    
   }
 }
-

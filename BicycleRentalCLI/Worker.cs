@@ -9,40 +9,49 @@ namespace BicycleRentalCLI
   class Worker : Persistable
   {
     private int ID { get; set; }
+    private string BannerID { get; set; }
     private string FirstName { get; set; }
     private string LastName { get; set; }
-    private string Address { get; set; }
-    private string City { get; set; }
-    private string State { get; set; }
-    private string Zip { get; set; }
-    private string DOB { get; set; }
+    private string PhoneNumber { get; set; }
+    private string EmailAddress { get; set; }
+    private string Credential { get; set; }
+    private string DateOfInitialRegistration { get; set; }
+    private string WorkerPassword { get; set; }
+    private string Notes { get; set; }
+    private string Status { get; set; }
+    private string DateStatusUpdated { get; set; }
+
     public Worker()
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=C:\Workers\Public\Documents\Visual Studio Assets" +
-          @"\Vehicle-noQueries.accdb";
+          @"Data source=BicycleRental.accdb";
     }
     //------------------------------------------------------------------
-    public Worker(string firstName, string lastName, string address,
-       string city, string state, string dob, string zip)
+    public Worker(string bannerId, string firstName, string lastName, string phoneNumber, string emailAddress, string credential, string dateOfInitialRegistration, string workerPassword, string notes, string status, string dateStatusUpdated)
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=C:\Workers\Public\Documents\Visual Studio Assets" +
-          @"\Vehicle-noQueries.accdb";
+          @"Data source=BicycleRental.accdb";
+
+      this.BannerID = bannerId;
       this.FirstName = firstName;
       this.LastName = lastName;
-      this.Address = address;
-      this.City = city;
-      this.State = state;
-      this.DOB = dob;
-      this.Zip = zip;
+      this.PhoneNumber = phoneNumber;
+      this.EmailAddress = emailAddress;
+      this.Credential = credential;
+      this.DateOfInitialRegistration = dateOfInitialRegistration;
+      this.WorkerPassword = workerPassword;
+      this.Notes = notes;
+      this.Status = status;
+      this.DateStatusUpdated = dateStatusUpdated;
+
     }
+
     //------------------------------------------------------------------
-    public void populate(int ID)
+    public void populate(int Id)
     {
-      string queryString = "SELECT * FROM Worker WHERE (ID = " + ID + ")";
+      string queryString = "SELECT * FROM Worker WHERE (ID = " + Id + ")";
       List<Object> results = getValues(queryString);
       if (results != null)
       {
@@ -54,21 +63,29 @@ namespace BicycleRentalCLI
           {
             // DEBUG Console.WriteLine(rowValue);
             if (count == 0)
-              this.ID = Convert.ToInt32(rowValue);
+              ID = Convert.ToInt32(rowValue);
             else if (count == 1)
-              FirstName = Convert.ToString(rowValue);
+              BannerID = Convert.ToString(rowValue);
             else if (count == 2)
-              LastName = Convert.ToString(rowValue);
+              FirstName = Convert.ToString(rowValue);
             else if (count == 3)
-              Address = Convert.ToString(rowValue);
+              LastName = Convert.ToString(rowValue);
             else if (count == 4)
-              City = Convert.ToString(rowValue);
+              PhoneNumber = Convert.ToString(rowValue);
             else if (count == 5)
-              State = Convert.ToString(rowValue);
+              EmailAddress = Convert.ToString(rowValue);
             else if (count == 6)
-              DOB = Convert.ToString(rowValue);
+              Credential = Convert.ToString(rowValue);
             else if (count == 7)
-              Zip = Convert.ToString(rowValue);
+              DateOfInitialRegistration = Convert.ToString(rowValue);
+            else if (count == 8)
+              WorkerPassword = Convert.ToString(rowValue);
+            else if (count == 9)
+              Notes = Convert.ToString(rowValue);
+            else if (count == 10)
+              Status = Convert.ToString(rowValue);
+            else if (count == 11)
+              DateStatusUpdated = Convert.ToString(rowValue);
             count = count + 1;
           }
         }
@@ -79,15 +96,19 @@ namespace BicycleRentalCLI
     {
 
       string insertQuery =
-      "INSERT INTO Worker (FirstName, LastName, Address, City, State, Zip, DOB) " +
+      "INSERT INTO Worker (BannerID, FirstName, LastName, PhoneNumber, EmailAddress, Credential, DateOfInitialRegistration, WorkerPassword, Notes, Status, DateStatusUpdated) " +
       "VALUES (" +
-      "'" + this.FirstName + "', '" +
+      "'" + this.BannerID + "', '" +
+      this.FirstName + "', '" +
       this.LastName + "', '" +
-      this.Address + "', '" +
-      this.City + "', '" +
-      this.State + "', '" +
-      this.Zip + "', '" +
-      this.DOB + "')";
+      this.PhoneNumber + "', '" +
+      this.EmailAddress + "', '" +
+      this.Credential + "', '" +
+      this.DateOfInitialRegistration + "', '" +
+      this.WorkerPassword + "', '" +
+      this.Notes + "', '" +
+      this.Status + "', '" +
+      this.DateStatusUpdated + "')";
       int returnCode = modifyDatabase(insertQuery);
       if (returnCode != 0)
       {
@@ -117,13 +138,17 @@ namespace BicycleRentalCLI
     public void update()
     {
       string updateQuery = "UPDATE Worker SET " +
+          " BannerId = '" + this.BannerID + "' ," +
           " FirstName = '" + this.FirstName + "' ," +
           " LastName = '" + this.LastName + "' ," +
-          " Address = '" + this.Address + "' ," +
-          " City = '" + this.City + "' ," +
-          " State = '" + this.State + "', " +
-          " Zip = '" + this.Zip + "', " +
-          " DOB = '" + this.DOB + "' " +
+          " PhoneNumber = '" + this.PhoneNumber + "' ," +
+          " EmailAddress = '" + this.EmailAddress + "', " +
+          " Credential = '" + this.Credential + "', " +
+          " DateOfInitialRegistration = '" + this.DateOfInitialRegistration + "', " +
+          " WorkerPassword = '" + this.WorkerPassword + "', " +
+          " Notes = '" + this.Notes + "', " +
+          " Status = '" + this.Status + "', " +
+          " DateStatusUpdated = '" + this.DateStatusUpdated + "' " +
           " WHERE " +
           " ID = " + this.ID;
       Console.WriteLine(updateQuery);
@@ -146,6 +171,11 @@ namespace BicycleRentalCLI
         Console.WriteLine("Worker object successfully deleted");
     }
 
+    public string getBannerId()
+    {
+      return this.BannerID;
+    }
+
     public string getFirstName()
     {
       return this.FirstName;
@@ -156,29 +186,49 @@ namespace BicycleRentalCLI
       return this.LastName;
     }
 
-    public string getAddress()
+    public string getPhoneNumnber()
     {
-      return this.Address;
+      return this.PhoneNumber;
     }
 
-    public string getCity()
+    public string getEmailAddress()
     {
-      return this.City;
+      return this.EmailAddress;
     }
 
-    public string getState()
+    public string getCredential()
     {
-      return this.State;
+      return this.Credential;
     }
 
-    public string getZip()
+    public string getDateOfInitialRegistration()
     {
-      return this.Zip;
+      return this.DateOfInitialRegistration;
     }
 
-    public string getDOB()
+    public string getWorkerPassword()
     {
-      return this.DOB;
+      return this.WorkerPassword;
+    }
+
+    public string getNotes()
+    {
+      return this.Notes;
+    }
+
+    public string getStatus()
+    {
+      return this.Status;
+    }
+
+    public string getDateStatusUpdated()
+    {
+      return this.DateStatusUpdated;
+    }
+
+    public void setBannerId(string bannerId)
+    {
+      this.BannerID = bannerId;
     }
 
     public void setFirstName(string firstName)
@@ -191,30 +241,44 @@ namespace BicycleRentalCLI
       this.LastName = lastName;
     }
 
-    public void setAddress(string address)
+    public void setPhoneNumner(string phoneNumber)
     {
-      this.Address = address;
+      this.PhoneNumber = phoneNumber;
     }
 
-    public void setCity(string city)
+    public void setEmailAddress(string emailAddress)
     {
-      this.City = city;
+      this.EmailAddress = emailAddress;
     }
 
-    public void setState(string state)
+    public void setCredential(string credential)
     {
-      this.State = state;
+      this.Credential = credential;
     }
 
-    public void setZip(string zip)
+    public void setDateOfInitialRegistration(string dateOfInitialRegistration)
     {
-      this.Zip = zip;
+      this.DateOfInitialRegistration = dateOfInitialRegistration;
     }
 
-    public void setDOB(string dob)
+    public void setWorkerPassword(string workerPassword)
     {
-      this.DOB = dob;
+      this.WorkerPassword = workerPassword;
+    }
+
+    public void setNotes(string notes)
+    {
+      this.Notes = notes;
+    }
+
+    public void setStatus(string status)
+    {
+      this.Status = status;
+    }
+
+    public void dateStatusUpdated(string dateStatusUpdated)
+    {
+      this.DateStatusUpdated = dateStatusUpdated;
     }
   }
 }
-

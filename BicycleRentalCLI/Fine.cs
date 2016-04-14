@@ -9,40 +9,36 @@ namespace BicycleRentalCLI
   class Fine : Persistable
   {
     private int ID { get; set; }
-    private string FirstName { get; set; }
-    private string LastName { get; set; }
-    private string Address { get; set; }
-    private string City { get; set; }
-    private string State { get; set; }
-    private string Zip { get; set; }
-    private string DOB { get; set; }
+    private string BannerID { get; set; }
+    private string FineAmount { get; set; }
+    private string DateFineImposed { get; set; }
+    private string Status { get; set; }
+    private string DateStatusUpdated { get; set; }
+
     public Fine()
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=C:\Fines\Public\Documents\Visual Studio Assets" +
-          @"\Vehicle-noQueries.accdb";
+          @"Data source=BicycleRental.accdb";
     }
     //------------------------------------------------------------------
-    public Fine(string firstName, string lastName, string address,
-       string city, string state, string dob, string zip)
+    public Fine(string bannerId, string fineAmount, string dateFineImposed, string status, string dateStatusUpdated)
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=C:\Fines\Public\Documents\Visual Studio Assets" +
-          @"\Vehicle-noQueries.accdb";
-      this.FirstName = firstName;
-      this.LastName = lastName;
-      this.Address = address;
-      this.City = city;
-      this.State = state;
-      this.DOB = dob;
-      this.Zip = zip;
+          @"Data source=BicycleRental.accdb";
+
+      this.BannerID = bannerId;
+      this.FineAmount = fineAmount;
+      this.DateFineImposed = dateFineImposed;
+      this.Status = status;
+      this.DateStatusUpdated = dateStatusUpdated;
+
     }
     //------------------------------------------------------------------
-    public void populate(int ID)
+    public void populate(int Id)
     {
-      string queryString = "SELECT * FROM Fine WHERE (ID = " + ID + ")";
+      string queryString = "SELECT * FROM Fine WHERE (ID = " + Id + ")";
       List<Object> results = getValues(queryString);
       if (results != null)
       {
@@ -54,21 +50,17 @@ namespace BicycleRentalCLI
           {
             // DEBUG Console.WriteLine(rowValue);
             if (count == 0)
-              this.ID = Convert.ToInt32(rowValue);
+              ID = Convert.ToInt32(rowValue);
             else if (count == 1)
-              FirstName = Convert.ToString(rowValue);
+              BannerID = Convert.ToString(rowValue);
             else if (count == 2)
-              LastName = Convert.ToString(rowValue);
+              FineAmount = Convert.ToString(rowValue);
             else if (count == 3)
-              Address = Convert.ToString(rowValue);
+              DateFineImposed = Convert.ToString(rowValue);
             else if (count == 4)
-              City = Convert.ToString(rowValue);
+              Status = Convert.ToString(rowValue);
             else if (count == 5)
-              State = Convert.ToString(rowValue);
-            else if (count == 6)
-              DOB = Convert.ToString(rowValue);
-            else if (count == 7)
-              Zip = Convert.ToString(rowValue);
+              DateStatusUpdated = Convert.ToString(rowValue);
             count = count + 1;
           }
         }
@@ -79,15 +71,13 @@ namespace BicycleRentalCLI
     {
 
       string insertQuery =
-      "INSERT INTO Fine (FirstName, LastName, Address, City, State, Zip, DOB) " +
+      "INSERT INTO Fine (BannerID, FineAmount, DateFineImposed, Status, DateStatusUpdated) " +
       "VALUES (" +
-      "'" + this.FirstName + "', '" +
-      this.LastName + "', '" +
-      this.Address + "', '" +
-      this.City + "', '" +
-      this.State + "', '" +
-      this.Zip + "', '" +
-      this.DOB + "')";
+      "'" + this.BannerID + "', '" +
+      this.FineAmount + "', '" +
+      this.DateFineImposed + "', '" +
+      this.Status + "', '" +
+      this.DateStatusUpdated + "')";
       int returnCode = modifyDatabase(insertQuery);
       if (returnCode != 0)
       {
@@ -117,13 +107,11 @@ namespace BicycleRentalCLI
     public void update()
     {
       string updateQuery = "UPDATE Fine SET " +
-          " FirstName = '" + this.FirstName + "' ," +
-          " LastName = '" + this.LastName + "' ," +
-          " Address = '" + this.Address + "' ," +
-          " City = '" + this.City + "' ," +
-          " State = '" + this.State + "', " +
-          " Zip = '" + this.Zip + "', " +
-          " DOB = '" + this.DOB + "' " +
+          " BannerID = '" + this.BannerID + "' ," +
+          " FineAmount = '" + this.FineAmount + "' ," +
+          " DateFineImposed = '" + this.DateFineImposed + "' ," +
+          " Status = '" + this.Status + "' ," +
+          " DateStatusUpdated = '" + this.DateStatusUpdated + "' " +
           " WHERE " +
           " ID = " + this.ID;
       Console.WriteLine(updateQuery);
@@ -146,75 +134,55 @@ namespace BicycleRentalCLI
         Console.WriteLine("Fine object successfully deleted");
     }
 
-    public string getFirstName()
+    public string getBannerId()
     {
-      return this.FirstName;
+      return this.BannerID;
     }
 
-    public string getLastName()
+    public string getFineAmount()
     {
-      return this.LastName;
+      return this.FineAmount;
     }
 
-    public string getAddress()
+    public string getDateFineImposed()
     {
-      return this.Address;
+      return this.DateFineImposed;
     }
 
-    public string getCity()
+    public string getStatus()
     {
-      return this.City;
+      return this.Status;
     }
 
-    public string getState()
+    public string getDateStatusUpdated()
     {
-      return this.State;
+      return this.DateStatusUpdated;
     }
 
-    public string getZip()
+    public void setBannerId(string bannerId)
     {
-      return this.Zip;
+      this.BannerID = bannerId;
     }
 
-    public string getDOB()
+    public void setFineAmount(string fineAmount)
     {
-      return this.DOB;
+      this.FineAmount = fineAmount;
     }
 
-    public void setFirstName(string firstName)
+    public void setDateFineImposed(string dateFineImposed)
     {
-      this.FirstName = firstName;
+      this.DateFineImposed = dateFineImposed;
     }
 
-    public void setLastName(string lastName)
+    public void setStatus(string status)
     {
-      this.LastName = lastName;
+      this.Status = status;
     }
 
-    public void setAddress(string address)
+    public void setDateStatusUpdated(string dateStatusUpdated)
     {
-      this.Address = address;
+      this.DateStatusUpdated = dateStatusUpdated;
     }
 
-    public void setCity(string city)
-    {
-      this.City = city;
-    }
-
-    public void setState(string state)
-    {
-      this.State = state;
-    }
-
-    public void setZip(string zip)
-    {
-      this.Zip = zip;
-    }
-
-    public void setDOB(string dob)
-    {
-      this.DOB = dob;
-    }
   }
 }
-
