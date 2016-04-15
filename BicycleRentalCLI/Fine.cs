@@ -19,16 +19,16 @@ namespace BicycleRentalCLI
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=..\BicycleRental.accdb";
-        }
+          @"Data source=BicycleRental.accdb";
+    }
     //------------------------------------------------------------------
     public Fine(string bannerId, string fineAmount, string dateFineImposed, string status, string dateStatusUpdated)
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=..\BicycleRental.accdb";
+          @"Data source=BicycleRental.accdb";
 
-            this.BannerID = bannerId;
+      this.BannerID = bannerId;
       this.FineAmount = fineAmount;
       this.DateFineImposed = dateFineImposed;
       this.Status = status;
@@ -38,7 +38,7 @@ namespace BicycleRentalCLI
     //------------------------------------------------------------------
     public void populate(int Id)
     {
-      string queryString = "SELECT * FROM [Fine] WHERE (ID = " + Id + ")";
+      string queryString = "SELECT * FROM Fine WHERE (ID = " + Id + ")";
       List<Object> results = getValues(queryString);
       if (results != null)
       {
@@ -61,7 +61,6 @@ namespace BicycleRentalCLI
               Status = Convert.ToString(rowValue);
             else if (count == 5)
               DateStatusUpdated = Convert.ToString(rowValue);
-
             count = count + 1;
           }
         }
@@ -72,7 +71,7 @@ namespace BicycleRentalCLI
     {
 
       string insertQuery =
-      "INSERT INTO Fine (BorrowerID, FineAmount, DateFineImposed, Status, DateStatusUpdated) " +
+      "INSERT INTO Fine (BannerID, FineAmount, DateFineImposed, Status, DateStatusUpdated) " +
       "VALUES (" +
       "'" + this.BannerID + "', '" +
       this.FineAmount + "', '" +
@@ -107,9 +106,8 @@ namespace BicycleRentalCLI
 
     public void update()
     {
-            DateStatusUpdated = DateTime.Now.ToString("yyyy-MM-dd");
-            string updateQuery = "UPDATE Fine SET " +
-          " BorrowerID = '" + this.BannerID + "' ," +
+      string updateQuery = "UPDATE Fine SET " +
+          " BannerID = '" + this.BannerID + "' ," +
           " FineAmount = '" + this.FineAmount + "' ," +
           " DateFineImposed = '" + this.DateFineImposed + "' ," +
           " Status = '" + this.Status + "' ," +
