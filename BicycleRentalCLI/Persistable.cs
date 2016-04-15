@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data.OleDb;
 
 class Persistable
 {
@@ -16,8 +17,7 @@ class Persistable
 
   public void configureConnection()
   {
-    conn.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source=..\BicycleRental.accdb";
+        conn.ConnectionString = connectionString;
   }
   //------------------------------------------------------------------
   //  Retrieve data values from database and put them in an array list
