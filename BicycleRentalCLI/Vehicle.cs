@@ -24,9 +24,7 @@ namespace BicycleRentalCLI
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
         }
 
     //------------------------------------------------------------------
@@ -34,9 +32,7 @@ namespace BicycleRentalCLI
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
 
       this.BikeMake = bikeMake;
       this.ModelNumber = modelNumber;

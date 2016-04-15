@@ -52,20 +52,16 @@ namespace BicycleRentalCLI
         public User()
           : base() // call parent default constructor
         {
-            connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
+        @"Data source=..\BicycleRental.accdb";
         }
         //------------------------------------------------------------------
         public User(string bannerId, string firstName, string lastName,
            string phoneNumber, string emailAddress, string userType, string notes, string status, string dateStatusUpdated)
           : base()
         {
-            connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
+        @"Data source=..\BicycleRental.accdb";
 
             this.BannerId = bannerId;
             this.FirstName = firstName;

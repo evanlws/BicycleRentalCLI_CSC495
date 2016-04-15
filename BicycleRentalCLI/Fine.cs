@@ -19,18 +19,14 @@ namespace BicycleRentalCLI
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
         }
     //------------------------------------------------------------------
     public Fine(string bannerId, string fineAmount, string dateFineImposed, string status, string dateStatusUpdated)
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
 
             this.BannerID = bannerId;
       this.FineAmount = fineAmount;
@@ -76,7 +72,7 @@ namespace BicycleRentalCLI
     {
 
       string insertQuery =
-      "INSERT INTO [Fine] (BorrowerID, FineAmount, DateFineImposed, Status, DateStatusUpdated) " +
+      "INSERT INTO Fine (BorrowerID, FineAmount, DateFineImposed, Status, DateStatusUpdated) " +
       "VALUES (" +
       "'" + this.BannerID + "', '" +
       this.FineAmount + "', '" +
@@ -112,7 +108,7 @@ namespace BicycleRentalCLI
     public void update()
     {
             DateStatusUpdated = DateTime.Now.ToString("yyyy-MM-dd");
-            string updateQuery = "UPDATE [Fine] SET " +
+            string updateQuery = "UPDATE Fine SET " +
           " BorrowerID = '" + this.BannerID + "' ," +
           " FineAmount = '" + this.FineAmount + "' ," +
           " DateFineImposed = '" + this.DateFineImposed + "' ," +

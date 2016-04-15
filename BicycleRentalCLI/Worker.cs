@@ -25,18 +25,14 @@ namespace BicycleRentalCLI
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
         }
     //------------------------------------------------------------------
     public Worker(string bannerId, string firstName, string lastName, string phoneNumber, string emailAddress, string credential, string dateOfInitialRegistration, string workerPassword, string notes, string status, string dateStatusUpdated)
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
 
             this.BannerID = bannerId;
       this.FirstName = firstName;
@@ -143,7 +139,7 @@ namespace BicycleRentalCLI
     public void update()
     {
             DateStatusUpdated = DateTime.Now.ToString("yyyy-MM-dd");
-            string updateQuery = "UPDATE [Worker] SET " +
+            string updateQuery = "UPDATE Worker SET " +
           " BannerId = '" + this.BannerID + "' ," +
           " FirstName = '" + this.FirstName + "' ," +
           " LastName = '" + this.LastName + "' ," +

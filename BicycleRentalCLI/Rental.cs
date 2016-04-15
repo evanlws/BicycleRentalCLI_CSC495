@@ -24,18 +24,14 @@ namespace BicycleRentalCLI
       : base() // call parent default constructor
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
         }
     //------------------------------------------------------------------
     public Rental(string vehicleId, string renterId, string dateRented, string timeRented, string dateDue, string timeDue, string dateReturned, string timeReturned, string checkoutWorkerId, string checkinWorkerId)
       : base()
     {
       connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" +
-          @"Data source= C:\Users\Van\Source\Repos\BicycleRentalCLI_CSC495"
-          +
-          @"\BicycleRental.accdb";
+          @"Data source=..\BicycleRental.accdb";
 
       this.VehicleID = Convert.ToInt32(vehicleId);
       this.RenterID = Convert.ToInt32(renterId);
@@ -51,7 +47,7 @@ namespace BicycleRentalCLI
     //------------------------------------------------------------------
     public void populate(int Id)
     {
-      string queryString = "SELECT * FROM [Rental] WHERE (ID = " + Id + ")";
+      string queryString = "SELECT * FROM Rental WHERE (ID = " + Id + ")";
       List<Object> results = getValues(queryString);
       if (results != null)
       {
@@ -94,7 +90,7 @@ namespace BicycleRentalCLI
     {
 
       string insertQuery =
-      "INSERT INTO [Rental] (VehicleID, RenterID, DateRented, TimeRented, DateDue, TimeDue, DateReturned, TimeReturned, CheckoutWorkerID, CheckinWorkerID) " +
+      "INSERT INTO Rental (VehicleID, RenterID, DateRented, TimeRented, DateDue, TimeDue, DateReturned, TimeReturned, CheckoutWorkerID, CheckinWorkerID) " +
       "VALUES (" +
       "'" + this.VehicleID + "', '" +
       this.RenterID + "', '" +
@@ -134,7 +130,7 @@ namespace BicycleRentalCLI
 
     public void update()
     {
-      string updateQuery = "UPDATE [Rental] SET " +
+      string updateQuery = "UPDATE Rental SET " +
           " VehicleID = '" + this.VehicleID + "' ," +
           " RenterID = '" + this.RenterID + "' ," +
           " DateRented = '" + this.DateRented +"' ," +
@@ -143,7 +139,7 @@ namespace BicycleRentalCLI
           " TimeDue = '" + this.TimeDue + "', " +
           " DateReturned = '" + this.DateReturned + "', " +
           " TimeReturned = '" + this.TimeReturned + "', " +
-          " CheckoutWorkderID = '" + this.CheckoutWorkerID + "', " +
+          " CheckoutWorkerID = '" + this.CheckoutWorkerID + "', " +
           " CheckInWorkerID = '" + this.CheckinWorkerID + "' " +
           " WHERE " +
           " ID = " + this.ID;
