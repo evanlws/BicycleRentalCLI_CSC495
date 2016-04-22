@@ -10,7 +10,14 @@ namespace BicycleRentalCLI
   {
     static void Main(string[] args)
     {
-            
+
+      RentalCollection rc = new RentalCollection();
+      rc.populateWithRentedOutBikes();
+      Console.WriteLine("number of good bikes: " + rc.rentalsOut.Count);
+
+      
+
+
                     //test user class
                     User user1 = new User();
                     user1.populate(1);
